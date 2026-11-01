@@ -1,0 +1,10 @@
+.venv/
+venv/ 
+env/
+.env
+__pycache__/
+prompts-ref/
+.DS_Store
+
+filthy-booking-website
+filthy-dashboard 

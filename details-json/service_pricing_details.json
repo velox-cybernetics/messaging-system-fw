@@ -1,0 +1,178 @@
+{
+    "s1" : {"service" : "Starlight Headliner", "service_details" : {
+        "description": "Transforms a vehicle's interior ceiling into a night sky", 
+        "technology" : "Fiber optic",
+        
+        "light_count" : "Minimum is 500, No Max", 
+        "pricing_per_light_count" : "cost is 1.70$ per star",
+        "star_price_examples" : "500 stars = 850$, 600 = 1020$, 800 = 1360$, 1000 = 1700$, 1200 = 2040$, 1500 = 2550$, 2000 = 3400$. Any other count is the stars times 1.70, then add the shooting stars and the sunroof on top. Ex: 1000 stars + 2 shooting stars = 1900$(NEVER MENTION THE PER STAR PRICE)",
+
+        "shooting_star" : "cost 100$ per shooting star",
+        "sun_roof_cost" : "extra 250$ if customer has sunroof",
+        "ambient_lighting" : "currently not offered(ONLy MENTION IF ASKED)",
+        "turnaround_time" : "next day turnaround",
+        "deposit" : "required, 100$" 
+    }}, 
+    "s2" : {"service" : "Vinyl Wrap", "service_details" : {
+        "description": "Transforms a vehicle's exterior without the permanence of paint",
+        "material" : "High quality film", 
+        "colors_offerd" : "Stop by shop to see what have or can check out colors at the website:https://metrorestyling.com/. Brands to look under: 3m, Avery Dennison, Kpmf, cheetah wrap. Only Mention this field if asked about it",
+        "finish" : "Smooth, paint-like",
+        "reversible" : "Yes",
+        "advantages_over_paint" : "No dust specks, uneven textures, or blotchy matte finishes",
+
+        "wrap_service_application" : "full wrap of the vehicle",
+        "wrap_price" : "3000$(car), 4000$(truck), 4500$(SUV)", 
+        "exotic_pricing" : "If vehicle exotic, i.e worth more than 200k, 2x pricing above for it",
+        "special_case_price" : "1. If vehicle is G-Wagon then price is 7k, 2. If vehicle is Urus then price is 6k, 3. If cybertruck then 2400$",
+        "muscle_cars" : "If customers vehicle is a Dodge charger OR Dodge chanllenger, and has widebody, price is 3500$, else is 3000$. Therefore if customer has one of those, ask before which variant in order to price",  
+        "tesla_model_y" : "A Tesla Model Y is NOT an SUV, a full wrap on it is priced as a car",
+        "hood_wrap" : "Can wrap the hood, if its a factory hood then 300$, else trigger a human in the loop",
+        "printed_wraps" : "Printed wraps (a design, logo, picture, pattern, or graphics printed on the vinyl) are priced by the owner himself, trigger a human in the loop. NEVER say the shop does not do printed wraps",
+
+        "warranty": "5 year",
+        "warranty_coverage" : "It covers bubbling, wrinkling, peeling/pulling, essentially any failing of the wrap due to the installer", 
+        
+        "included" : "Free ceramic coating",
+        "color_options" : "come into shop to see them",
+        "price_difference_material" : "chrome film is 5000$ more",
+        "add_ons" : "door_jams: cost extra 600$ per door(Non-applicable for chrome film)", 
+        "panel_removal" : "by default panels come off, but there is option to keep them on if user wants",
+        "turnaround_time" : "4-5 days",
+        "customer_material" : "The customer is allowed to bring in there own material if they want to. Bringing their own wrap takes 300$ off the full wrap price for their vehicle(ONLY MENTION IF ASKED)",
+        "deposit" : "required, 500$" 
+    }},
+    "s3" : {"service" : "Window Tint", "service_details" : {
+        "overview" : {
+            "description" : "Thin film applied to vehicle windows",
+            "legal_compliance" : "Texas law: the front side windows must be 25% or lighter, the rear side windows and back glass can be any shade including 5%. If the customer wants darker than 25% on the front side windows, tell them it is not street legal in Texas. NEVER promise they wont get a ticket",
+            "tint_film_cutting_method" : "machine cut, ensures no scratches",
+            "tint_%_range" : "5% limo tint all the way to 70% clear film(PRICING is same NO MATTER the percentage)",
+            "brand_use" : "brand STEK(DONT MENTION UNLESS ASKED ABOUT)",
+            "length_of_tint_special" : "Always tell the customer for one more month",
+            "tint_special_discount" : "if the user customer, then always inform them that the original price is $100 more(ONLY INFORM THEM IF THEY ASK, For Ex: and what was the original price)",
+            "tint_notes" : "1) Do NOT offer electronically adjustable tint(ONLY MENTION IF ASKED)",
+            "turnaround_time" : "2-3hrs(DONT MENTION UNLESS ASKED ABOUT)"
+        },
+
+        "tint_film" : {
+            "film" : "nano ceramic, the ONLY tint the shop offers. NEVER offer, price, compare, or mention any other film, tier, level, or upgrade, even when the customer asks for something better or names another tint",
+            "uv_rejection" : "blocks 99% of UV rays",
+            "heat_rejection" : "91%",
+            "stek_series" : "Smart series(DONT MENTION UNLESS EXPLICITLY ASKED ABOUT)"
+        },
+
+        "pricing_main_package" : {
+            "coverage" : "All side and rear windows",
+            "price" : "299$",
+            "special_case_tesla_model_3" : "Tesla Model 3 main package: 399$"
+        },
+
+        "pricing_front_windshield" : {
+            "standard_vehicles" : "150$(SEE FIELDS BELOW IF TESLA OR CYBERTRUCK)",
+            "tesla_model_3_model_y_model_s" : "200$",
+            "cybertruck_and_tesla_model_x" : "500$"
+        },
+
+        "pricing_rear_windshield" : {
+            "standard_vehicles" : "150$(SEE FIELDS BELOW IF TESLA OR CYBERTRUCK)",
+            "tesla_model_3_model_y_model_s" : "200$",
+            "cybertruck_and_tesla_model_x" : "500$"
+        },
+
+        "pricing_other_areas" : {
+            "single_side_window" : "65$(ONLY EXPLICITLY MENTION IF THEY ARE ASKING)",
+            "windshield_brow" : "70$, 8-13 inches down",
+            "sunroof" : "100$",
+            "sunroof_panoramic" : "150$",
+            "special_case_sunroof_cybertruck" : "If cybertruck, 300$",
+            "special_case_sunroof_model_y" : "If tesla model y, 300$"
+        },
+
+        "tint_removal" : {
+            "front_2_windows" : "70$ to remove the tint on the front two windows",
+            "rear_windshield_only" : "100$ to remove the tint on the rear windshield(back window) by ITSELF. This is the price for the back window ONLY do not say you are unsure of it",
+            "front_windshield": "100$ to remove the tint on the front windshield(front window) by ITSELF. THIS is the price for the back window ONLY do NOT say if unsure of it",
+            "all_sides_and_rear_windshield" : "150$ to remove all sides(includes front 2, since its all side windows) and rear windshield tint"
+        },
+        
+        "warranty" : "Lifetime",
+        "warranty_coverage" : "It covers bubbling, creasing, pulling, discoloration, essentially any failing of the tint application due to the installer",
+
+        "discount_handling" : "If user is asking for a 2 for 1 special, or some sort of discount, tell them already running a special on tint, but best can do is throw in a free \"brow\" tint"
+    }},
+    "s4" : {"service": "colored paint protection film(ppf)", "service_details" : {
+        "material" : "High quality brands, pure ppf and STEK, whichever the customer prefers", 
+        "description": "A high-performance film that combines clear paint protection against chips, scratches, and UV damage with stunning color customization.",
+        "durability_and_value": "Lasts 7-10 years while completely preserving the original paint and vehicle resale value.",
+ 
+        "color_ppf_application" : "applied to entire vehicle", 
+        "color_ppf_price" : "(coupes and tesla -> 6500$), (sedans -> 7000$), (cybertrucks -> 5500$), (trucks and SUVs -> 8000$)",
+        "warranty" : "10 year", 
+        "warranty_coverage" : "It covers bubbling, wrinkling, peeling/pulling, essentially any failing of the wrap due to the installer", 
+        
+        "included" : "Free ceramic coating",
+        "color_options" : "the shop offers the colors from both pure ppf and STEK, whichever the customer prefers. If the customer asks to see the colors or asks about a specific color, say we offer them and put this link in the reply so they can look through the colors: https://www.pureprotectionfilm.com/colored-ppf-film (SEND THE LINK IN THE REPLY ITSELF, NEVER ASK FOR THEIR EMAIL OR OFFER TO SEND IT ANOTHER WAY)",
+        "panel_removal" : "by default panels come off, but can keep them on, though comes at the cost of not being able to complete the job as well",
+
+        "turnaround_time" : "5-6 days",
+        "deposit" : "required, 100$" 
+    }},
+    "s5" : {"service" : "ceramic coating/paint corretion", "service_details" : {
+        "description": "Ceramic coating is applied to the ENTIRE vehicle. If they only want it to be applied to some section that falls under CUSTOM",
+        "service_note" : "paint corretion is only offered with ceramic coating, and vice versa, thus if someone wants paint corretion they have to get ceramic coating, and if want ceramic coating have to get paint corretion", 
+        "brand" : "Leading Edge Ceramic, located up north in The Woodlands, AND the shop ALSO uses a STEK final coating. When asked about the brand or what coating the shop uses, ALWAYS name BOTH Leading Edge Ceramic and the STEK final coating(ONLY MENTION IF ASKED)",
+        "brand_website" : "https://www.leadingedgeceramic.com (ONLY MENTION IF ASKED ABOUT THE BRAND)",
+        
+        "included" : "rim cleaning",
+        "ceramic_coat_pricing_1_step" : "(Coupes and Sedans -> 499$), (Trucks and SUVs 599$), NOTE: This is tier offer, unless customer asked for 2-step EXPLICITLY", 
+        "ceramic_coat_pricing_2_step" : "(Couples and Sedans -> 699$), (Trucks and SUVs 799$)",
+       
+        "turnaround_time" : "5-6 hours",
+        "warranty" : "7 Warranty is offered IFF the shop is the one doing maintaince anytime the vehicle needs a wash, else no warranty offered at all"
+    }},
+    "s6" : {"service" : "caliber wraps", "service_details" : {
+        "description": "Premium vinyl covers for brake calipers that provide a cost effective, customizable alternative to painting or powder coating.",
+        "durability_and_value": "An affordable way to enhance your vehicle's appearance without having permance of paint",
+
+        "caliber_wrap_price_non_brembo" : "600$",
+        "caliber_wrap_price_brembo" : "800$",
+        "turnaround_time" : "SAME day",
+        "warranty" : "none"
+    }},
+    "s7" : {"service" : "windshield paint protection film(ppf)", "service_details" : {
+        "description": "A clear sheild for your windsheild to prevent rock chips and road debris, from coming up and cracking windsheild",
+        "material" : "preimunm ppf", 
+        
+        "price" : "350$ fixed",
+        "turnaround_time" : "3-4 Hours",
+        "warranty" : "30 day manufacturer warranty(DO NOT INCLUDE UNLESS ASKED ABOUT)"
+    }},
+    "s8" : {"service" : "paint protection film(clear)", "service_details" : {
+        "description": "A clear shield for your vehicle that protects it from debris and it has self healing technology that prevents any swirls or scratches",
+        "durability_and_value": "Preserves vehicle resale value and maintains a factory fresh appearance",
+        "material" : "preimunm ppf",
+        "brand" : "STEK(ONLY GIVE IF ASK)",
+        
+        "ppf_application" : "full frontal package or whole body package", 
+        
+        "ppf_application_details_full_frontal" : "front bumber, full hood, full fenders, headlighs, mirrors, door guards, door cups",
+        "ppf_price_full_frontal_teslas" : "1500$",
+        "ppf_price_full_frontal_non_teslas" : "(coupes and sedans -> 1800$), (SUVs and Trucks -> 2200$)",
+        "ppf_price_hood_and_front_bumper_only" : "1000$ for the front bumper and full hood only(coupes and sedans; for a truck or SUV ask the owner). This is a PPF job, NOT a wrap, never call it a wrap. Offer the full frontal package first, but if they only want the hood and bumper, this is the price",
+        "ppf_price_front_bumper_only" : "499$ for just the front bumper, the same price on every vehicle, so it never needs the year, make, or model. Backed by the same 10 year warranty. This is a PPF job, NOT a wrap, never call it a wrap. Offer the full frontal package first, but if they only want the front bumper, this is the price",
+        
+        "ppf_application_details_whole_body" : "edge to edge applied to entire body", 
+        "ppf_price_whole_body" : "(Coupes, Sedans, Tesla -> 5000$), (SUVs, trucks -> 5999$)", 
+        "ppf_price_whole_body_special_pricing" : "If ask for matte, satin, stealth, for the color, then add 500$ on prices above",
+
+        "Note" : "For PPFs if user is asking for specfic parts of the front, first offer the frontal package. If adimit only on getting that specfic part AFTER offered frontal PPF package: hood + front bumper (ppf_price_hood_and_front_bumper_only) and the front bumper alone (ppf_price_front_bumper_only) have their own prices above, any OTHER single part then and only then trigger human in the loop", 
+        "special_ppf_pricing" : "special ppf pricing for just the front bumber, front fenders, and hood is $1600(ONLY MENTION IS ASKED FOR THIS SPECFICALLY)",
+        "included" : "Free ceramic coating applied to the areas where the PPF was applied",
+        "general_ppf_applications" : "applied to anywhere the customer wants, here need to handoff",
+        "warranty" : "10 year", 
+        "turnaround_time" : "Front_Bumper_ONLY = usually ready for pickup the next day, Frontal_PPF_ONLY = 24 hours, Full_Body_PPF = 5-6 days",
+        "warranty_coverage" : "It covers bubbling, wrinkling, peeling/pulling, essentially any failing of the wrap due to the installer",
+        "deposit" : "required, 100$"
+    }}
+}

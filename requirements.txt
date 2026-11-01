@@ -1,0 +1,7 @@
+fastapi
+requests
+uvicorn
+python-dotenv
+upstash-redis
+pillow_heif
+Pillow

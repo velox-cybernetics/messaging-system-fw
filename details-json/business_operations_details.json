@@ -1,0 +1,16 @@
+{
+    "b1"  : {"Hours Of Operations" : {"Mon, Tue, Wed, Thu, Fri, Sat": "10AM - 5PM", "Sun": "CLOSED"}},
+    "b2"  : {"Years In Business"   : "7, started in 2019"},
+    "b3"  : {"Business Name"       : "Filthy Wraps"},
+    "b4"  : {"Owner"               : "Preston Van Norton, Cheif Executive Officer(CEO)"}, 
+    "b5"  : {"Shop Address"        : ["12015 Woodworth Dr, Cypress, TX 77429", "6003 N Shepherd Dr, Houston, TX 77091"],
+              "Shop Address Notes"  : "Give EVERY location listed when asked where located. NOT MOBILE(DONT MENTION UNLESS ASK), Waiting area avalible or can just drop off and get it whenever done(DONT MENTION UNLESS ASKED)"},
+    "b6"  : {"Contact Phone"       : "(737) 203-6990"},
+    "b7"  : {"Contact Email"       : "filthywraps@gmail.com"},
+    "b8"  : {"Website"             : "https://filthywraps.com, service details and online quote form available"},
+    "b9"  : {"Number Of Employees" : "3 full time installers, 1 office staff"},
+    "b10" : {"Business License"    : "Registered in state of Texas"},
+    "b11" : {"Name of person talking to" : "Preston, CEO"},
+    "b12" : {"Payments Accepted" : "Accept all payment methods, no tax on anything"},
+    "b13" : {"Social Media" : "Instagram @filthywraps_(DONT MENTION UNLESS ASKED)"}
+}
