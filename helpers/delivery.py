@@ -1,6 +1,9 @@
 from helpers import senders as send
 from helpers import username as un
+from helpers import dashboard as dash
 from helpers.alerts import alert_owner_once
+from src.rage_functions import BOOKING_LINK
+from urllib.parse import quote
 
 
 #CONSTANTS
@@ -28,16 +31,31 @@ UNREACHABLE_ALERT_SECONDS: int = 86400
 REJECTED_ALERT_SECONDS: int = 86400
 
 
+#the booking link names the conversation it went to, so the dashboard only counts bookings made through the system's own link
+def with_ref(channel: str, id: str, text: str) -> str:
+    #no link, or the owner pasted one that already names a conversation
+    if(BOOKING_LINK not in text or "?ref=" in text or channel not in dash.DASH_CHANNELS):
+        return text
+
+    #quoted whole so the | and the + of a phone number make it through the url
+    member: str = quote(dash.DASH_CHANNELS[channel] + "|" + id, safe="")
+
+    return text.replace(BOOKING_LINK, f"{BOOKING_LINK}?ref={member}")
+
+
 #sends one message to a customer on their channel, and texts the owner when meta says why it failed
 def send_message(channel: str, id: str, text: str) -> dict:
     send_result: dict = send.send_result(False)
 
+    #only the customer's copy carries the ref, the history and the dashboard keep the plain link
+    sent_text: str = with_ref(channel, id, text)
+
     if(channel == "ig"):
-        send_result = send.send_ig_message(id, text)
+        send_result = send.send_ig_message(id, sent_text)
     elif(channel == "blooio"):
-        send_result = send.send_blooio_message(id, text)
+        send_result = send.send_blooio_message(id, sent_text)
     elif(channel == "messenger"):
-        send_result = send.send_messenger_message(id, text)
+        send_result = send.send_messenger_message(id, sent_text)
 
     if(send_result["sent"]):
         return send_result

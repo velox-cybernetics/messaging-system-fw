@@ -1,3 +1,4 @@
+import { judged_bookings } from "./_lib/booked.js";
 import { fail, json, server_error } from "./_lib/http.js";
 import { as_number, as_object, as_strings, pipeline, redis, type Command } from "./_lib/redis.js";
 import { refuse } from "./_lib/session.js";
@@ -13,7 +14,7 @@ const RANGES: string[] = ["day", "week", "month", "ytd"];
 //left out of every range for display only, their counters keep being written
 const HIDDEN_MONTHS: Record<string, boolean> = { "2026-05": true, "2026-06": true, "2026-07": true };
 
-//bookings counted right now, booking id to the day (and hour) its lead went on
+//bookings from the system counted right now, booking id to the day (and hour) its lead went on
 const LEADS_ACTIVE: string = "dash:leads:active";
 
 //the first lead count kept this set, its ids get adopted into dash:leads:active without counting again
@@ -24,7 +25,7 @@ const CREDIT_FORMAT: RegExp = /^(\d{4}-\d{2}-\d{2})(?:@(\d{2}))?$/;
 
 
 //TYPES
-//out is replies only since follow ups keep their own count in fu, leads are booked jobs
+//out is replies only since follow ups keep their own count in fu, leads are jobs booked through the systems link
 type Counts = { in: number, out: number, links: number, leads: number, hil: number, fu: number };
 
 type Day = { counts: Record<string, string>, in: Set<string>, out: Set<string> };
@@ -64,7 +65,7 @@ function credited_to(value: string): Credit | null {
 
 
 //SYNC LEADS
-//booked jobs follow the booking websites booking:* records, a cancelled one takes its lead back, one that just expired keeps it
+//booked jobs only come from the system, a cancelled one or one the system never brought in takes its lead back, one that just expired keeps it
 async function sync_leads(now: number): Promise<void> {
     //once a minute at most since this reads every booking
     const claimed: unknown = await redis(["SET", "dash:leads:sync", 1, "NX", "EX", 60]);
@@ -73,54 +74,15 @@ async function sync_leads(now: number): Promise<void> {
         return;
     }
 
-    //READ EVERY BOOKING
-    const keys: string[] = [];
+    const from_system: Map<string, Record<string, unknown>> = new Map();
 
-    let cursor: string = "0";
+    const taken_back: Set<string> = new Set();
 
-    while(true) {
-        const answer: unknown = await redis(["SCAN", cursor, "MATCH", "booking:*", "COUNT", 200]);
-
-        let next: unknown = "0";
-
-        let batch: unknown = [];
-
-        if(Array.isArray(answer)) {
-            next = answer[0];
-
-            batch = answer[1];
-        }
-
-        cursor = String(next);
-
-        for(const key of as_strings(batch)) {
-            keys.push(key);
-        }
-
-        if(cursor === "0") {
-            break;
-        }
-    }
-
-    const get_commands: Command[] = [];
-
-    for(const key of keys) {
-        get_commands.push(["GET", key]);
-    }
-
-    const records: unknown[] = await pipeline(get_commands);
-
-    const confirmed: Map<string, Record<string, unknown>> = new Map();
-
-    const cancelled: Set<string> = new Set();
-
-    for(const record of records) {
-        const booking: Record<string, unknown> = fields_of(parse_json(record));
-
-        if(booking.status === "confirmed" && booking.id) {
-            confirmed.set(String(booking.id), booking);
-        } else if(booking.status === "cancelled" && booking.id) {
-            cancelled.add(String(booking.id));
+    for(const each of await judged_bookings()) {
+        if(each.status === "confirmed" && each.from_system.length > 0) {
+            from_system.set(each.id, each.booking);
+        } else if(each.status === "confirmed" || each.status === "cancelled") {
+            taken_back.add(each.id);
         }
     }
 
@@ -133,14 +95,14 @@ async function sync_leads(now: number): Promise<void> {
     const commands: Command[] = [];
 
     //COUNT NEW BOOKINGS
-    for(const id of confirmed.keys()) {
+    for(const id of from_system.keys()) {
         const counted_at: string | undefined = active[id];
 
         if(counted_at !== undefined && counted_at !== "") {
             continue;
         }
 
-        const booking: Record<string, unknown> = confirmed.get(id) as Record<string, unknown>;
+        const booking: Record<string, unknown> = from_system.get(id) as Record<string, unknown>;
 
         let moment: number = as_number(booking.confirmedAt);
 
@@ -173,13 +135,13 @@ async function sync_leads(now: number): Promise<void> {
 
     //DROP GONE BOOKINGS
     for(const id of Object.keys(active)) {
-        if(confirmed.has(id)) {
+        if(from_system.has(id)) {
             continue;
         }
 
         let credited: Credit | null = null;
 
-        if(cancelled.has(id)) {
+        if(taken_back.has(id)) {
             credited = credited_to(active[id] as string);
         }
 

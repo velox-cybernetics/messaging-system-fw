@@ -1,3 +1,4 @@
+import { LINKED } from "./_lib/booked.js";
 import { fail, json, read_body, server_error } from "./_lib/http.js";
 import { as_number, as_strings, pipeline, redis, type Command } from "./_lib/redis.js";
 import { refuse_bot } from "./_lib/session.js";
@@ -386,6 +387,9 @@ async function record_message(incoming: Incoming): Promise<Response> {
         commands.push(["HINCRBY", stats_key, "links", 1]);
 
         commands.push(["HINCRBY", stats_key, "links@" + hour, 1]);
+
+        //only the first one sticks, a booking made after it is one the system brought in
+        commands.push(["HSETNX", LINKED, member, now]);
     }
 
     if(follow_up) {
