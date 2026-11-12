@@ -1,0 +1,41 @@
+/*LOGIN*/
+.login {
+    display: grid;
+    place-items: center;
+    min-height: 100dvh;
+    padding: var(--gutter);
+}
+
+.login-form {
+    display: grid;
+    gap: 8px;
+    width: min(360px, 100%);
+}
+
+.login-logo img {
+    display: block;
+    width: auto;
+    height: 128px;
+}
+
+.login-note {
+    margin-bottom: 28px;
+    color: var(--haze);
+}
+
+.login-form label {
+    font-size: var(--size-s);
+    font-weight: 600;
+}
+
+.login-form input {
+    min-height: 44px;
+    padding: 0 14px;
+    border: 1px solid var(--seam);
+    border-radius: 10px;
+    background: var(--smoke);
+}
+
+.login-form .button {
+    margin-top: 12px;
+}

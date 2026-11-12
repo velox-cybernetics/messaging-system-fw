@@ -1,0 +1,19 @@
+{
+  "name": "filthy-dashboard",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "build": "tsc -p ts",
+    "check": "tsc -p ts --noEmit && tsc -p . --noEmit"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "~5.9.3"
+  }
+}

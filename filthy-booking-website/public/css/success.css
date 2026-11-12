@@ -1,0 +1,146 @@
+/*LAYOUT*/
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.success {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/*inline-block so it sizes to the nowrap title and the rule and details match its width*/
+.success__inner {
+    display: inline-block;
+    text-align: center;
+    max-width: 100%;
+}
+
+.success__title {
+    display: inline-block;
+    font-size: clamp(1.5rem, 7.5vw, 4.5rem);
+    color: var(--silver);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin: 0;
+    font-weight: 700;
+    white-space: nowrap;
+    line-height: 1.1;
+}
+
+.success__rule {
+    display: block;
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: rgba(192, 192, 192, 0.55);
+    margin: 28px 0 36px;
+}
+
+
+/*FALL IN*/
+.fall-word {
+    display: inline-block;
+    margin: 0 0.18em;
+    opacity: 0;
+    transform: translateY(-60px);
+    animation: fall-in 0.8s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+    animation-delay: var(--delay, 0s);
+}
+
+.fall-line {
+    display: block;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fall-in 0.55s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+    animation-delay: var(--delay, 0s);
+}
+
+@keyframes fall-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/*DETAILS*/
+.success__details {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-left: 3px solid var(--blue);
+    padding: 36px 48px;
+    box-sizing: border-box;
+    opacity: 0;
+    animation: fade-in 0.5s ease forwards;
+    animation-delay: 0.45s;
+}
+
+@keyframes fade-in {
+    to {
+        opacity: 1;
+    }
+}
+
+.success__details dt {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 22px;
+}
+
+.success__details dt:first-of-type {
+    margin-top: 0;
+}
+
+.success__details dd {
+    margin: 6px 0 0;
+    color: var(--silver);
+    font-size: 1.25rem;
+    letter-spacing: 0.02em;
+    word-break: break-word;
+}
+
+
+/*PHONE*/
+@media (max-width: 600px) {
+    .success {
+        padding: 32px 16px;
+        justify-content: flex-start;
+        padding-top: 64px;
+    }
+
+    .success__title {
+        font-size: clamp(1.1rem, 7vw, 1.9rem);
+        letter-spacing: 0.08em;
+    }
+
+    .success__rule {
+        margin: 20px 0 24px;
+    }
+
+    .success__details {
+        padding: 22px 24px;
+    }
+
+    .success__details dt {
+        font-size: 0.7rem;
+        margin-top: 16px;
+    }
+
+    .success__details dd {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,95 @@
+/*SERVICES*/
+.services, .locations {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.service-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding: 16px 18px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-2);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.95rem;
+    letter-spacing: 0.03em;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+}
+
+.service-btn:hover {
+    border-color: var(--blue-light);
+    background: rgba(42, 69, 255, 0.12);
+    color: #fff;
+}
+
+.service-btn--selected {
+    border-color: var(--blue-light);
+    background: var(--blue-gradient);
+    color: #fff;
+    font-weight: 600;
+}
+
+.service-btn__name {
+    flex: 1;
+}
+
+.location-btn__address {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: var(--text-dim);
+    letter-spacing: 0.02em;
+}
+
+.service-btn:hover .location-btn__address, .service-btn--selected .location-btn__address {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.service-btn__badge {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--silver);
+    border: 1px solid var(--border-strong);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4px 8px;
+    white-space: nowrap;
+}
+
+.service-btn--selected .service-btn__badge {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+
+/*PHONE*/
+@media (max-width: 600px) {
+    .service-btn {
+        padding: 14px 14px;
+        font-size: 0.9rem;
+    }
+
+    .service-btn__badge {
+        font-size: 0.58rem;
+        padding: 3px 6px;
+    }
+}
+
+
+/*CUSTOM SERVICE*/
+.custom-service {
+    margin-top: 18px;
+}
+
+.custom-service[hidden] {
+    display: none;
+}

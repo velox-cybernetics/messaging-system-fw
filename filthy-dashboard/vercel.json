@@ -1,0 +1,29 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "public",
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/desktop.html", "destination": "/", "permanent": false },
+    { "source": "/index.html", "destination": "/", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/", "destination": "/html/overview.html" },
+    { "source": "/messages", "destination": "/html/messages.html" },
+    { "source": "/follow-ups", "destination": "/html/follow-ups.html" },
+    { "source": "/calendar", "destination": "/html/calendar.html" },
+    { "source": "/system", "destination": "/html/system.html" },
+    { "source": "/login", "destination": "/html/login.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "same-origin" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self'; frame-src https://calendar.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" }
+      ]
+    }
+  ]
+}

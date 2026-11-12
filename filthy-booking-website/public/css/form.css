@@ -1,0 +1,154 @@
+/*FORM*/
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 480px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.field__label {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.field__input {
+    padding: 12px 14px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-2);
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: inherit;
+    letter-spacing: 0.02em;
+}
+
+.field__input::placeholder {
+    color: var(--text-muted);
+}
+
+.field__input:focus {
+    outline: none;
+    border-color: var(--blue-light);
+    box-shadow: 0 0 0 2px rgba(42, 69, 255, 0.25);
+}
+
+.field__phone {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-2);
+}
+
+.field__phone:focus-within {
+    border-color: var(--blue-light);
+    box-shadow: 0 0 0 2px rgba(42, 69, 255, 0.25);
+}
+
+.field__phone-prefix {
+    padding: 12px 14px;
+    color: var(--silver);
+    background: rgba(0, 0, 0, 0.25);
+    border-right: 1px solid var(--border-strong);
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    user-select: none;
+}
+
+.field__input--with-prefix {
+    border: 0;
+    background: transparent;
+    flex: 1;
+    min-width: 0;
+}
+
+.field__input--with-prefix:focus {
+    outline: none;
+    box-shadow: none;
+    border: 0;
+}
+
+.field__input:invalid:not(:placeholder-shown) {
+    border-color: #c0392b;
+}
+
+.field--ack {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.field--ack[hidden] {
+    display: none;
+}
+
+.field__checkbox {
+    width: 16px;
+    height: 16px;
+    margin: 3px 0 0;
+    flex-shrink: 0;
+    accent-color: var(--blue);
+    cursor: pointer;
+}
+
+.field__ack-text {
+    font-size: 0.85rem;
+    color: var(--text);
+    letter-spacing: 0.02em;
+    user-select: none;
+}
+
+
+/*SUBMIT BUTTON*/
+.submit-btn {
+    padding: 14px 24px;
+    background: var(--blue-gradient);
+    color: #fff;
+    border: 1px solid var(--blue-light);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    margin-top: 12px;
+    align-self: flex-start;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    min-width: 220px;
+}
+
+.submit-btn:hover {
+    background: var(--blue-gradient-hover);
+}
+
+.submit-btn:disabled {
+    background: var(--surface-2);
+    color: var(--text-muted);
+    border-color: var(--border);
+    cursor: not-allowed;
+}
+
+
+/*PHONE*/
+@media (max-width: 600px) {
+    .submit-btn {
+        width: 100%;
+        min-width: 0;
+        padding: 14px 16px;
+    }
+
+    /*1rem stops ios zooming in on focus*/
+    .field__input {
+        font-size: 1rem;
+    }
+}

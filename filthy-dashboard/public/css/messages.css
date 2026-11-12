@@ -1,0 +1,724 @@
+/*PAGE*/
+.list, .log {
+    scrollbar-color: var(--seam) transparent;
+    scrollbar-width: thin;
+}
+
+time {
+    white-space: nowrap;
+}
+
+.messages {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: var(--page);
+    height: calc(100dvh - var(--bar-height) - var(--nav-height));
+    margin: 0 auto;
+    border-right: 1px solid var(--seam);
+    border-left: 1px solid var(--seam);
+}
+
+/*a newly opened thread fades in*/
+.thread-head:not([hidden]) {
+    animation: fade 200ms var(--ease);
+}
+
+
+/*CHANNEL TABS*/
+.tabs {
+    display: flex;
+    gap: 4px;
+    padding: 8px var(--gutter) 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-bottom: 1px solid var(--seam);
+}
+
+.tab {
+    padding: 10px 14px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: var(--haze);
+    font-size: var(--size-s);
+    white-space: nowrap;
+}
+
+@media (hover: hover) {
+    .tab:hover {
+        color: var(--paint);
+    }
+
+    .convo:hover {
+        background: var(--smoke);
+    }
+
+    .flag-button:hover {
+        border-color: var(--hazard);
+        color: var(--hazard);
+    }
+
+    .trash-button:hover {
+        border-color: var(--stop);
+        color: var(--stop);
+    }
+}
+
+.tab[aria-pressed="true"] {
+    border-bottom-color: var(--white);
+    color: var(--white);
+}
+
+.tab-count {
+    margin-left: 8px;
+    color: var(--haze);
+    font-size: var(--size-xs);
+}
+
+/*red dot on a switched off channel so it shows from every tab*/
+.tab-off {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-left: 6px;
+    border-radius: 50%;
+    background: var(--stop);
+    vertical-align: middle;
+}
+
+.split {
+    display: grid;
+    grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+    min-height: 0;
+}
+
+
+/*CONVERSATION LIST*/
+.list {
+    min-height: 0;
+    overflow-y: auto;
+    border-right: 1px solid var(--seam);
+}
+
+.list-note {
+    padding: 24px var(--gutter);
+    color: var(--haze);
+    font-size: var(--size-s);
+}
+
+/*channel switch and views stay put on top while the list scrolls*/
+.list-head {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--seam);
+    background: var(--limo);
+}
+
+.channel-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px var(--gutter);
+}
+
+.channel-note {
+    min-width: 0;
+    color: var(--haze);
+    font-size: var(--size-s);
+}
+
+.channel-bar.is-off .channel-note {
+    color: var(--stop);
+}
+
+.views {
+    margin: 0 var(--gutter);
+}
+
+/*three segments now so they get less padding and stay on one line*/
+.views .segment {
+    flex: 1;
+    padding: 0 4px;
+    white-space: nowrap;
+}
+
+.view-count {
+    margin-left: 6px;
+    font-size: var(--size-xs);
+    opacity: 0.7;
+}
+
+/*green dollar sign in front of anyone who booked a job*/
+.booked-mark {
+    margin-right: 4px;
+    color: var(--go);
+    font-weight: 700;
+}
+
+.segment[aria-pressed="true"] .booked-mark {
+    color: inherit;
+}
+
+.convos {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.convo {
+    display: grid;
+    gap: 4px;
+    width: 100%;
+    padding: 14px var(--gutter);
+    border: 0;
+    border-bottom: 1px solid var(--seam);
+    background: none;
+    text-align: left;
+}
+
+.convo[aria-current="true"] {
+    background: var(--smoke);
+    box-shadow: inset 2px 0 0 var(--white);
+}
+
+.convo-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.convo-name {
+    overflow: hidden;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*holds the dollar sign and the name so the time stays pinned right*/
+.convo-who {
+    display: flex;
+    align-items: baseline;
+    min-width: 0;
+}
+
+.convo-top time {
+    flex: none;
+    color: var(--haze);
+    font-size: var(--size-xs);
+}
+
+.convo-preview {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: var(--size-s);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+.convo-preview.is-reply {
+    color: var(--haze);
+}
+
+.convo-badges {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.badge {
+    padding: 1px 8px;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: var(--size-xs);
+}
+
+.badge.is-flagged {
+    color: var(--hazard);
+}
+
+/*a conversation that just got a new message lights up once*/
+.convo.is-new {
+    animation: arrived 1.6s ease-out;
+}
+
+@keyframes arrived {
+    from {
+        background: #2b2b2b;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .convo.is-new {
+        animation: none;
+    }
+}
+
+.more {
+    display: flex;
+    margin: 16px auto 24px;
+}
+
+
+/*THREAD*/
+.thread {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+}
+
+.thread-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px var(--gutter);
+    border-bottom: 1px solid var(--seam);
+}
+
+/*back to the list only shows on a phone*/
+.back {
+    display: none;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    margin-left: -10px;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: var(--paint);
+}
+
+.thread-who {
+    flex: 1;
+    min-width: 0;
+}
+
+.thread-name {
+    overflow: hidden;
+    font-size: var(--size-l);
+    font-weight: 600;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.thread-meta {
+    color: var(--haze);
+    font-size: var(--size-s);
+}
+
+.thread-controls {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/*SWITCH*/
+/*system off turns the whole control red so it cant be missed*/
+.switch {
+    display: inline-flex;
+    flex: none;
+    white-space: nowrap;
+    align-items: center;
+    gap: 10px;
+    min-height: 40px;
+    padding: 0 14px 0 8px;
+    border: 1px solid var(--seam);
+    border-radius: 999px;
+    background: none;
+    font-size: var(--size-s);
+    font-weight: 600;
+}
+
+.switch-track {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    border: 1px solid var(--white);
+    border-radius: 999px;
+    background: var(--white);
+}
+
+.switch-knob {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--limo);
+    transition: left 150ms ease;
+}
+
+.switch[aria-checked="false"] {
+    border-color: var(--stop);
+    color: var(--stop);
+}
+
+.switch[aria-checked="false"] .switch-track {
+    border-color: var(--stop);
+    background: none;
+}
+
+.switch[aria-checked="false"] .switch-knob {
+    left: 2px;
+    background: var(--stop);
+}
+
+/*while the whole channel is off a customer switch just shows it and cant be flipped*/
+.switch:disabled {
+    cursor: default;
+    opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .switch-knob {
+        transition: none;
+    }
+}
+
+
+/*ICON BUTTONS*/
+.icon-button {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--seam);
+    border-radius: 50%;
+    background: none;
+    color: var(--paint);
+}
+
+.flag-button.is-flagged {
+    border-color: var(--hazard);
+    color: var(--hazard);
+}
+
+.flag-button.is-flagged path {
+    fill: currentColor;
+}
+
+
+/*LOG*/
+.log {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 0;
+    padding: 24px var(--gutter) 48px;
+    overflow-y: auto;
+}
+
+.log-note {
+    max-width: 40ch;
+    margin: auto;
+    color: var(--haze);
+    text-align: center;
+}
+
+.day {
+    align-self: center;
+    margin: 12px 0 0;
+    color: var(--haze);
+    font-size: var(--size-xs);
+    font-weight: 500;
+}
+
+.msg {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: min(560px, 82%);
+}
+
+.msg.is-in {
+    align-self: flex-start;
+    align-items: flex-start;
+}
+
+.msg.is-out {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+
+.bubble {
+    padding: 10px 14px;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+/*customer on the left outlined, system on the right in white*/
+.is-in .bubble {
+    border: 1px solid var(--seam);
+    border-radius: 16px 16px 16px 6px;
+}
+
+.is-out .bubble {
+    border-radius: 16px 16px 6px 16px;
+    background: var(--white);
+    color: var(--limo);
+}
+
+/*a reply i typed, from the dashboard or by hand on the channel*/
+.is-owner .bubble {
+    border: 1px solid var(--haze);
+    background: none;
+    color: var(--paint);
+}
+
+.msg footer {
+    display: flex;
+    gap: 8px;
+    color: var(--haze);
+    font-size: var(--size-xs);
+}
+
+.msg-note.is-off {
+    color: var(--stop);
+}
+
+.pic img {
+    display: block;
+    max-width: min(260px, 100%);
+    height: auto;
+    max-height: 340px;
+    border: 1px solid var(--seam);
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.attachment {
+    padding: 8px 12px;
+    border: 1px dashed var(--seam);
+    border-radius: 10px;
+    color: var(--haze);
+    font-size: var(--size-s);
+}
+
+.event {
+    align-self: center;
+    max-width: 60ch;
+    color: var(--haze);
+    font-size: var(--size-s);
+    text-align: center;
+}
+
+.event time {
+    margin-left: 8px;
+    color: var(--haze);
+    font-size: var(--size-xs);
+}
+
+.event.is-hil {
+    color: var(--hazard);
+}
+
+.event.is-off {
+    color: var(--stop);
+}
+
+
+/*REPLY BOX*/
+.composer {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 12px var(--gutter) 16px;
+    border-top: 1px solid var(--seam);
+}
+
+.composer textarea {
+    flex: 1;
+    min-width: 0;
+    min-height: 40px;
+    max-height: 160px;
+    padding: 8px 16px;
+    border: 1px solid var(--seam);
+    border-radius: 20px;
+    background: var(--smoke);
+    line-height: 1.45;
+    resize: none;
+    field-sizing: content;
+}
+
+
+/*DIALOGS*/
+.dialog {
+    width: min(520px, calc(100vw - 32px));
+    padding: 24px;
+    border: 1px solid var(--seam);
+    border-radius: 16px;
+    background: var(--smoke);
+    color: var(--paint);
+}
+
+.dialog::backdrop {
+    background: rgb(0 0 0 / 0.72);
+}
+
+.dialog h2 {
+    font-size: var(--size-l);
+    font-weight: 600;
+}
+
+.dialog-note {
+    margin-top: 6px;
+    color: var(--haze);
+    font-size: var(--size-s);
+}
+
+.dialog label {
+    display: block;
+    margin-top: 20px;
+    font-size: var(--size-s);
+    font-weight: 600;
+}
+
+.dialog textarea {
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px;
+    border: 1px solid var(--seam);
+    border-radius: 10px;
+    background: var(--limo);
+    line-height: 1.45;
+    resize: vertical;
+}
+
+.dialog .error {
+    margin-top: 8px;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+
+/*PHONES*/
+/*one pane at a time, the thread takes the whole screen under the top bar*/
+@media (max-width: 760px) {
+    .messages {
+        border-right: 0;
+        border-left: 0;
+    }
+
+    .split {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .list {
+        border-right: 0;
+    }
+
+    .channel-bar {
+        padding: 8px var(--edge-right) 8px var(--edge-left);
+    }
+
+    .views {
+        margin: 0 var(--edge-right) 0 var(--edge-left);
+    }
+
+    .messages:not(.show-thread) .thread, .messages.show-thread .list, .messages.show-thread .tabs {
+        display: none;
+    }
+
+    .messages.show-thread {
+        grid-template-rows: 1fr;
+    }
+
+    .tabs {
+        gap: 0;
+        padding: 0;
+    }
+
+    /*the channels share the row evenly, each an easy tap*/
+    .tab {
+        flex: 1;
+        min-height: 48px;
+        padding: 0 8px;
+    }
+
+    .tab-count {
+        margin-left: 6px;
+    }
+
+    .convo {
+        padding: 14px var(--edge-right) 14px var(--edge-left);
+    }
+
+    .thread-head {
+        gap: 10px;
+        padding: 8px var(--edge-right) 8px var(--edge-left);
+    }
+
+    .back {
+        display: grid;
+    }
+
+    .thread-name {
+        font-size: var(--size-m);
+    }
+
+    .thread-meta {
+        overflow: hidden;
+        font-size: var(--size-xs);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .thread-controls {
+        gap: 6px;
+    }
+
+    .icon-button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .switch {
+        gap: 8px;
+        padding: 0 12px 0 6px;
+        font-size: var(--size-xs);
+    }
+
+    .log {
+        gap: 12px;
+        padding: 16px var(--edge-right) 32px var(--edge-left);
+    }
+
+    .composer {
+        padding: 10px var(--edge-right) 12px var(--edge-left);
+    }
+
+    .msg {
+        max-width: 86%;
+    }
+
+    .pic img {
+        max-width: min(220px, 100%);
+    }
+}
+
+/*smallest phones drop the switch words so the customer name still fits*/
+@media (max-width: 359px) {
+    #switch-label {
+        display: none;
+    }
+
+    #switch {
+        padding: 0 8px;
+    }
+}

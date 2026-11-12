@@ -1,0 +1,116 @@
+/*CALENDAR*/
+.calendars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.calendar {
+    border: 1px solid var(--border);
+    padding: 16px;
+    background: var(--surface-2);
+}
+
+.calendar__header {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 14px;
+    font-size: 0.85rem;
+    color: var(--silver);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.calendar__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.calendar__weekday {
+    text-align: center;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    padding: 6px 0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.calendar__day {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    background: transparent;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    cursor: default;
+    padding: 0;
+    font-family: inherit;
+    font-weight: 400;
+}
+
+.calendar__day--blank {
+    visibility: hidden;
+}
+
+.calendar__day--past {
+    color: var(--text-muted);
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.calendar__day--unavailable {
+    color: var(--text-muted);
+}
+
+.calendar__day--available {
+    color: var(--text);
+    background: #0a0a0a;
+    border-color: var(--border-strong);
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.calendar__day--available:hover {
+    color: #fff;
+    border-color: var(--blue-light);
+    background: rgba(42, 69, 255, 0.12);
+}
+
+.calendar__day--selected {
+    background: var(--blue-gradient);
+    border-color: var(--blue-light);
+    color: #fff;
+    font-weight: 600;
+}
+
+.calendar__day--today {
+    outline: 1px solid var(--silver);
+    outline-offset: -2px;
+}
+
+
+/*PHONE*/
+/*the two months stack in one column*/
+@media (max-width: 600px) {
+    .calendars {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .calendar {
+        padding: 12px;
+    }
+
+    .calendar__header {
+        font-size: 0.78rem;
+        margin-bottom: 10px;
+    }
+
+    .calendar__day {
+        font-size: 0.95rem;
+    }
+}

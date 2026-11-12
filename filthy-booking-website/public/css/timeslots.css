@@ -1,0 +1,54 @@
+/*TIMESLOTS*/
+.timeslots {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+.timeslot {
+    padding: 14px 10px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-2);
+    color: var(--text);
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-align: center;
+    font-family: inherit;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+
+.timeslot:hover:not(:disabled) {
+    border-color: var(--blue-light);
+    background: rgba(42, 69, 255, 0.12);
+    color: #fff;
+}
+
+.timeslot--unavailable, .timeslot:disabled {
+    color: var(--text-muted);
+    background: var(--surface);
+    cursor: not-allowed;
+    text-decoration: line-through;
+    border-color: var(--border);
+}
+
+.timeslot--selected {
+    background: var(--blue-gradient);
+    border-color: var(--blue-light);
+    color: #fff;
+    font-weight: 600;
+}
+
+
+/*PHONE*/
+@media (max-width: 600px) {
+    .timeslots {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 8px;
+    }
+
+    .timeslot {
+        padding: 12px 6px;
+        font-size: 0.85rem;
+    }
+}

@@ -1,0 +1,29 @@
+/*CALENDAR*/
+.calendar {
+    max-width: var(--page);
+    margin: 0 auto;
+    padding: 28px var(--edge-right) 32px var(--edge-left);
+    animation: rise 420ms var(--ease) both;
+}
+
+.calendar h1 {
+    font-size: var(--size-xxl);
+    line-height: 1;
+}
+
+.calendar-frame {
+    margin-top: 24px;
+    overflow: hidden;
+    border: 1px solid var(--seam);
+    border-radius: 16px;
+    background: var(--smoke);
+}
+
+/*as tall as the screen allows*/
+.calendar-frame iframe {
+    display: block;
+    width: 100%;
+    height: calc(100dvh - var(--bar-height) - 150px);
+    min-height: 480px;
+    border: 0;
+}

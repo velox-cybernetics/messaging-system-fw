@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!--META-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <meta name="theme-color" content="#000000">
+        <title>Sign in | Filthy Wraps</title>
+
+
+        <!--STYLES-->
+        <link rel="stylesheet" href="/css/base.css">
+        <link rel="stylesheet" href="/css/login.css">
+
+
+        <!--SCRIPTS-->
+        <script type="module" src="/js/login.js"></script>
+    </head>
+    <body>
+        <!--LOGIN-->
+        <main class="login">
+            <form class="login-form" id="login-form">
+                <h1 class="login-logo"><img src="/img/logo.png" alt="Filthy Wraps" width="212" height="256"></h1>
+                <p class="login-note">Messaging dashboard</p>
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" autocomplete="current-password" required>
+                <p class="error" id="login-error" role="alert" hidden></p>
+                <button type="submit" class="button" id="login-button">Sign in</button>
+            </form>
+        </main>
+    </body>
+</html>

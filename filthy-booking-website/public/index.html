@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--META-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Service — Filthy Wraps</title>
+    <meta name="description" content="Book your appointment with Filthy Wraps — Starlight Headliner, Window Tint, and Vinyl Wrap.">
+
+
+    <!--OPEN GRAPH-->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Book a Service — Filthy Wraps">
+    <meta property="og:description" content="Book your appointment with Filthy Wraps — Starlight Headliner, Window Tint, and Vinyl Wrap.">
+    <meta property="og:image" content="https://filthywraps.com/filthy-photos/site-icons/filthy-wraps-icon.webp">
+
+
+    <!--TWITTER-->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Book a Service — Filthy Wraps">
+    <meta name="twitter:description" content="Book your appointment with Filthy Wraps — Starlight Headliner, Window Tint, and Vinyl Wrap.">
+    <meta name="twitter:image" content="https://filthywraps.com/filthy-photos/site-icons/filthy-wraps-icon.webp">
+
+
+    <!--ICONS-->
+    <link rel="icon" type="image/webp" href="https://filthywraps.com/filthy-photos/site-icons/filthy-wraps-icon.webp">
+    <link rel="apple-touch-icon" href="https://filthywraps.com/filthy-photos/site-icons/filthy-wraps-icon.webp">
+
+
+    <!--STYLES-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/service.css">
+    <link rel="stylesheet" href="css/calendar.css">
+    <link rel="stylesheet" href="css/timeslots.css">
+    <link rel="stylesheet" href="css/form.css">
+</head>
+<body>
+    <main class="booking">
+        <!--HEADER-->
+        <header class="booking__header">
+            <h1>Book a Service</h1>
+            <ol class="steps" id="steps">
+                <li class="steps__item is-active" data-step="1">Location</li>
+                <li class="steps__item" data-step="2">Service</li>
+                <li class="steps__item" data-step="3">Date &amp; Time</li>
+                <li class="steps__item" data-step="4">Details</li>
+            </ol>
+        </header>
+
+
+        <!--LOCATION-->
+        <section class="view view--location is-active" id="view-location">
+            <h2 class="view__title">Choose a location</h2>
+            <div class="locations" id="locations"></div>
+        </section>
+
+
+        <!--SERVICE-->
+        <section class="view view--service" id="view-service">
+            <button class="back-btn" id="back-to-location" type="button">&larr; Back</button>
+            <h2 class="view__title">Choose a service</h2>
+            <p class="view__subtitle" id="selected-location-label"></p>
+            <div class="services" id="services"></div>
+            <form class="booking-form custom-service" id="custom-service" hidden novalidate>
+                <label class="field">
+                    <span class="field__label">Describe the service you need</span>
+                    <input class="field__input" type="text" id="field-custom-service" maxlength="100" placeholder="e.g. Chrome delete" autocomplete="off">
+                </label>
+                <button class="submit-btn" type="submit">Continue</button>
+            </form>
+        </section>
+
+
+        <!--CALENDAR-->
+        <section class="view view--calendar" id="view-calendar">
+            <button class="back-btn" id="back-to-service" type="button">&larr; Back</button>
+            <h2 class="view__title">Pick a day</h2>
+            <p class="view__subtitle" id="selected-service-label"></p>
+            <div class="calendars" id="calendars"></div>
+            <p class="view__hint">Note: Only highlighted days are available.</p>
+        </section>
+
+
+        <!--TIME SLOTS-->
+        <section class="view view--timeslots" id="view-timeslots">
+            <button class="back-btn" id="back-to-calendar" type="button">&larr; Back</button>
+            <h2 class="view__title">Pick a time</h2>
+            <p class="view__subtitle" id="selected-date-label"></p>
+            <p class="view__hint" id="service-rule-hint"></p>
+            <div class="timeslots" id="timeslots"></div>
+        </section>
+
+
+        <!--DETAILS-->
+        <section class="view view--form" id="view-form">
+            <button class="back-btn" id="back-to-timeslots" type="button">&larr; Back</button>
+            <h2 class="view__title">Your details</h2>
+            <p class="view__subtitle" id="selected-summary-label"></p>
+            <form class="booking-form" id="booking-form" novalidate>
+                <label class="field">
+                    <span class="field__label">Name</span>
+                    <input class="field__input" type="text" name="name" id="field-name" required autocomplete="name">
+                </label>
+                <label class="field">
+                    <span class="field__label">Phone number</span>
+                    <div class="field__phone">
+                        <span class="field__phone-prefix">+1</span>
+                        <input class="field__input field__input--with-prefix" type="tel" name="phone" id="field-phone" required autocomplete="tel" inputmode="tel" maxlength="14" placeholder="555 555 1234">
+                    </div>
+                </label>
+                <label class="field field--ack" id="deposit-ack" hidden>
+                    <input class="field__checkbox" type="checkbox" id="field-deposit-ack">
+                    <span class="field__ack-text" id="deposit-ack-text"></span>
+                </label>
+                <button class="submit-btn" type="submit">Book appointment</button>
+            </form>
+        </section>
+    </main>
+
+
+    <!--SCRIPTS-->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
