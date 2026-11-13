@@ -5,13 +5,13 @@ import { api, ApiError, by_id, CHANNEL_NAMES, day_label, make_element, on_pulse,
 //shapes come from api/convos.ts and api/thread.ts
 type Tab = "forms" | "instagram" | "messenger";
 
-type View = "on" | "booked" | "off";
+type View = "on" | "linked" | "booked" | "off";
 
 type Role = "customer" | "agent" | "owner";
 
-type Convo = { id: string, tab: Tab, channel: string, name: string, lastAt: number, lastRole: Role | null, lastText: string, off: boolean, flagged: boolean, booked: boolean };
+type Convo = { id: string, tab: Tab, channel: string, name: string, lastAt: number, lastRole: Role | null, lastText: string, off: boolean, flagged: boolean, booked: boolean, linked: boolean };
 
-type ThreadConvo = { id: string, tab: Tab, channel: string, name: string, lastAt: number, lastRole: Role | null, lastText: string, off: boolean, flagged: boolean, tabOff: boolean, flaggedAt: number, booked: boolean };
+type ThreadConvo = { id: string, tab: Tab, channel: string, name: string, lastAt: number, lastRole: Role | null, lastText: string, off: boolean, flagged: boolean, tabOff: boolean, flaggedAt: number, booked: boolean, linked: boolean };
 
 type PicMedia = { kind: "pic", url: string, caption: string };
 
@@ -47,8 +47,8 @@ type ViewParts = { button: HTMLButtonElement, count: HTMLSpanElement };
 //CONSTANTS
 const TABS: Tab[] = ["forms", "instagram", "messenger"];
 
-//booked sits between on and off, same order as the buttons
-const VIEWS: View[] = ["on", "booked", "off"];
+//link sent and booked sit between on and off, same order as the buttons
+const VIEWS: View[] = ["on", "linked", "booked", "off"];
 
 const TAB_NAMES: Record<string, string> = { forms: "Forms", instagram: "Instagram", messenger: "Messenger" };
 
@@ -89,11 +89,13 @@ const list_head: HTMLElement = by_id("list-head");
 
 const view_on_parts: ViewParts = { button: by_id("view-on") as HTMLButtonElement, count: by_id("view-on-count") as HTMLSpanElement };
 
+const view_linked_parts: ViewParts = { button: by_id("view-linked") as HTMLButtonElement, count: by_id("view-linked-count") as HTMLSpanElement };
+
 const view_booked_parts: ViewParts = { button: by_id("view-booked") as HTMLButtonElement, count: by_id("view-booked-count") as HTMLSpanElement };
 
 const view_off_parts: ViewParts = { button: by_id("view-off") as HTMLButtonElement, count: by_id("view-off-count") as HTMLSpanElement };
 
-const view_buttons: Record<string, ViewParts> = { on: view_on_parts, booked: view_booked_parts, off: view_off_parts };
+const view_buttons: Record<string, ViewParts> = { on: view_on_parts, linked: view_linked_parts, booked: view_booked_parts, off: view_off_parts };
 
 const log: HTMLElement = by_id("log");
 
@@ -151,6 +153,8 @@ if(params.get("view") === "off") {
     current_view = "off";
 } else if(params.get("view") === "booked") {
     current_view = "booked";
+} else if(params.get("view") === "linked") {
+    current_view = "linked";
 }
 
 let current_id: string = "";
@@ -329,12 +333,18 @@ function empty_note(view_counts: Record<string, number>): string {
         return "No " + name + " customers have booked yet.";
     }
 
+    if(current_view === "linked") {
+        return "No " + name + " customers are sitting on a booking link right now.";
+    }
+
     const off_count: number = view_counts.off as number;
 
     const booked_count: number = view_counts.booked as number;
 
-    if(off_count > 0 || booked_count > 0) {
-        return "Every " + name + " conversation is booked or switched off. Check Booked and System off.";
+    const linked_count: number = view_counts.linked as number;
+
+    if(off_count > 0 || booked_count > 0 || linked_count > 0) {
+        return "Every " + name + " conversation got the link, booked, or is switched off. Check Link sent, Booked and System off.";
     }
 
     return "No " + name + " conversations yet. They show up here the moment a customer messages in.";
@@ -349,6 +359,19 @@ function booked_mark(): HTMLElement {
     mark.setAttribute("title", "Booked a job");
 
     mark.setAttribute("aria-label", "Booked a job");
+
+    return mark;
+}
+
+
+//LINKED MARK
+//the hourglass in front of anyone who got the booking link and hasnt booked yet
+function linked_mark(): HTMLElement {
+    const mark: HTMLElement = make_element("span", "linked-mark", "⏳");
+
+    mark.setAttribute("title", "Got the booking link");
+
+    mark.setAttribute("aria-label", "Got the booking link");
 
     return mark;
 }
@@ -422,6 +445,8 @@ function convo_row(convo: Convo, is_new: boolean): HTMLLIElement {
 
     if(convo.booked) {
         who.append(booked_mark());
+    } else if(convo.linked) {
+        who.append(linked_mark());
     }
 
     who.append(make_element("span", "convo-name", convo_title(convo)));
@@ -812,6 +837,8 @@ function render_head(convo: ThreadConvo): void {
 
     if(convo.booked) {
         thread_name.append(booked_mark());
+    } else if(convo.linked) {
+        thread_name.append(linked_mark());
     }
 
     thread_name.append(convo_title(convo));
@@ -979,13 +1006,17 @@ async function flip_switch(): Promise<void> {
 
         render_head(convo);
 
-        //booked customers stay under Booked whichever way the switch goes
+        //booked and link sent customers stay in their view whichever way the switch goes
         if(on && convo.booked) {
             toast("System switched on for " + convo_title(convo) + ". It answers their next message, and they stay under Booked.");
+        } else if(on && convo.linked) {
+            toast("System switched on for " + convo_title(convo) + ". It answers their next message, and they stay under Link sent.");
         } else if(on) {
             toast("System switched on for " + convo_title(convo) + ". It answers their next message, and they're back under System on.");
         } else if(convo.booked) {
             toast("System switched off for " + convo_title(convo) + ". Nothing goes out to them now, and they stay under Booked.");
+        } else if(convo.linked) {
+            toast("System switched off for " + convo_title(convo) + ". Nothing goes out to them now, and they stay under Link sent.");
         } else {
             toast("System switched off for " + convo_title(convo) + ". Nothing goes out to them now, and they're under System off.");
         }
@@ -1281,6 +1312,8 @@ function pulse_changed(): void {
 build_tabs();
 
 view_on_parts.button.addEventListener("click", pick_view);
+
+view_linked_parts.button.addEventListener("click", pick_view);
 
 view_booked_parts.button.addEventListener("click", pick_view);
 

@@ -1,4 +1,4 @@
-import { BOOKED } from "./_lib/booked.js";
+import { BOOKED, LINKED } from "./_lib/booked.js";
 import { fail, json, server_error } from "./_lib/http.js";
 import { as_number, as_object, as_strings, pipeline, redis, type Command } from "./_lib/redis.js";
 import { refuse } from "./_lib/session.js";
@@ -96,7 +96,7 @@ async function show_thread(request: Request): Promise<Response> {
 
     const member: string = place.member;
 
-    const answers: unknown[] = await pipeline([["HGETALL", "dash:conv:" + member], ["LRANGE", "dash:msgs:" + member, 0, -1], ["LRANGE", "dash:events:" + member, 0, -1], ["SISMEMBER", "dash:restricted", place.id], ["SISMEMBER", "dash:off_channels", place.channel], ["SISMEMBER", "dash:flagged", member], ["SISMEMBER", BOOKED, member]]);
+    const answers: unknown[] = await pipeline([["HGETALL", "dash:conv:" + member], ["LRANGE", "dash:msgs:" + member, 0, -1], ["LRANGE", "dash:events:" + member, 0, -1], ["SISMEMBER", "dash:restricted", place.id], ["SISMEMBER", "dash:off_channels", place.channel], ["SISMEMBER", "dash:flagged", member], ["SISMEMBER", BOOKED, member], ["HEXISTS", LINKED, member]]);
 
     const summary: Summary | null = summary_of(member, as_object(answers[0]));
 
@@ -135,7 +135,12 @@ async function show_thread(request: Request): Promise<Response> {
 
     entries.sort(oldest_first);
 
-    const convo: Record<string, unknown> = { id: summary.id, tab: summary.tab, channel: summary.channel, name: summary.name, lastAt: summary.lastAt, lastRole: summary.lastRole, lastText: summary.lastText, off: as_number(answers[3]) === 1, tabOff: as_number(answers[4]) === 1, flagged: as_number(answers[5]) === 1, flaggedAt: flagged_at, booked: as_number(answers[6]) === 1 };
+    const booked: boolean = as_number(answers[6]) === 1;
+
+    //got the link but hasnt booked yet
+    const linked: boolean = as_number(answers[7]) === 1 && !booked;
+
+    const convo: Record<string, unknown> = { id: summary.id, tab: summary.tab, channel: summary.channel, name: summary.name, lastAt: summary.lastAt, lastRole: summary.lastRole, lastText: summary.lastText, off: as_number(answers[3]) === 1, tabOff: as_number(answers[4]) === 1, flagged: as_number(answers[5]) === 1, flaggedAt: flagged_at, booked: booked, linked: linked };
 
     return json({ convo: convo, entries: entries }, 200);
 }

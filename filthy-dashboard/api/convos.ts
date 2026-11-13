@@ -1,4 +1,4 @@
-import { booked_members } from "./_lib/booked.js";
+import { booked_members, linked_members } from "./_lib/booked.js";
 import { fail, json, server_error } from "./_lib/http.js";
 import { as_object, as_strings, pipeline, type Command } from "./_lib/redis.js";
 import { refuse } from "./_lib/session.js";
@@ -11,12 +11,12 @@ const PAGE_SIZE: number = 50;
 //a refresh after show older asks for everything already on screen so the list doesnt snap back to 50
 const MAX_LIMIT: number = 500;
 
-//each tab splits into the convos the system answers, the ones that booked, and the ones switched off
-const VIEWS: string[] = ["on", "booked", "off"];
+//each tab splits into the convos the system answers, the ones sent the link, the ones that booked, and the ones switched off
+const VIEWS: string[] = ["on", "linked", "booked", "off"];
 
 
 //TYPES
-type ConvoRow = { id: string, tab: Tab, channel: Channel, name: string, lastAt: number, lastRole: Role | null, lastText: string, off: boolean, flagged: boolean, booked: boolean };
+type ConvoRow = { id: string, tab: Tab, channel: Channel, name: string, lastAt: number, lastRole: Role | null, lastText: string, off: boolean, flagged: boolean, booked: boolean, linked: boolean };
 
 
 //WHOLE NUMBER
@@ -37,7 +37,7 @@ function whole_number(text: string | null, fallback: number): number {
 
 
 //LOAD CONVOS
-async function load_convos(members: string[], restricted: Set<string>, booked: Set<string>, flagged: Set<string>): Promise<ConvoRow[]> {
+async function load_convos(members: string[], restricted: Set<string>, booked: Set<string>, linked: Set<string>, flagged: Set<string>): Promise<ConvoRow[]> {
     const convos: ConvoRow[] = [];
 
     if(members.length === 0) {
@@ -107,7 +107,10 @@ async function load_convos(members: string[], restricted: Set<string>, booked: S
         const summary: Summary | null = summary_of(member, convs[index] as Record<string, string>);
 
         if(summary !== null) {
-            convos.push({ id: summary.id, tab: summary.tab, channel: summary.channel, name: summary.name, lastAt: summary.lastAt, lastRole: summary.lastRole, lastText: summary.lastText, off: restricted.has(summary.id), flagged: flagged.has(member), booked: booked.has(member) });
+            //linked only means still waiting on them, once they book its just booked
+            const waiting: boolean = linked.has(member) && !booked.has(member);
+
+            convos.push({ id: summary.id, tab: summary.tab, channel: summary.channel, name: summary.name, lastAt: summary.lastAt, lastRole: summary.lastRole, lastText: summary.lastText, off: restricted.has(summary.id), flagged: flagged.has(member), booked: booked.has(member), linked: waiting });
         }
     }
 
@@ -160,6 +163,8 @@ async function list_convos(request: Request): Promise<Response> {
 
     const booked: Set<string> = await booked_members();
 
+    const linked: Set<string> = await linked_members();
+
     const counts: Record<Tab, number> = { forms: 0, instagram: 0, messenger: 0 };
 
     const on_members: string[] = [];
@@ -167,6 +172,8 @@ async function list_convos(request: Request): Promise<Response> {
     const off_members: string[] = [];
 
     const booked_list: string[] = [];
+
+    const linked_list: string[] = [];
 
     for(const member of as_strings(answers[0])) {
         const where: Member | null = split_member(member);
@@ -181,9 +188,11 @@ async function list_convos(request: Request): Promise<Response> {
             continue;
         }
 
-        //booked wins over the switch so a paying customer never hides under System off
+        //booked wins over the switch so a paying customer never hides under System off, same deal for one holding the link
         if(booked.has(member)) {
             booked_list.push(member);
+        } else if(linked.has(member)) {
+            linked_list.push(member);
         } else if(restricted.has(where.id)) {
             off_members.push(member);
         } else {
@@ -197,6 +206,8 @@ async function list_convos(request: Request): Promise<Response> {
         listed = off_members;
     } else if(view === "booked") {
         listed = booked_list;
+    } else if(view === "linked") {
+        listed = linked_list;
     }
 
     const members: string[] = listed.slice(start, start + limit);
@@ -209,9 +220,9 @@ async function list_convos(request: Request): Promise<Response> {
         }
     }
 
-    const convos: ConvoRow[] = await load_convos(members, restricted, booked, flagged);
+    const convos: ConvoRow[] = await load_convos(members, restricted, booked, linked, flagged);
 
-    const view_counts: Record<string, number> = { on: on_members.length, booked: booked_list.length, off: off_members.length };
+    const view_counts: Record<string, number> = { on: on_members.length, linked: linked_list.length, booked: booked_list.length, off: off_members.length };
 
     return json({ tab: tab, view: view, counts: counts, viewCounts: view_counts, offTabs: off_tabs, more: start + members.length < listed.length, convos: convos }, 200);
 }

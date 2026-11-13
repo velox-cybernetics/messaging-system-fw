@@ -343,3 +343,10 @@ export async function booked_members(): Promise<Set<string>> {
 
     return new Set(as_strings(await redis(["SMEMBERS", BOOKED])));
 }
+
+
+//LINKED MEMBERS
+//every convo the system ever sent the booking link to, booked or not
+export async function linked_members(): Promise<Set<string>> {
+    return new Set(as_strings(await redis(["HKEYS", LINKED])));
+}

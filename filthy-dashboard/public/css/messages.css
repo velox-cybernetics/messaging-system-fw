@@ -135,13 +135,15 @@ time {
     color: var(--stop);
 }
 
+/*four segments dont fit one line in the list, so two rows of two*/
 .views {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     margin: 0 var(--gutter);
+    border-radius: 20px;
 }
 
-/*three segments now so they get less padding and stay on one line*/
 .views .segment {
-    flex: 1;
     padding: 0 4px;
     white-space: nowrap;
 }
@@ -161,6 +163,11 @@ time {
 
 .segment[aria-pressed="true"] .booked-mark {
     color: inherit;
+}
+
+/*hourglass in front of anyone still sitting on the booking link*/
+.linked-mark {
+    margin-right: 4px;
 }
 
 .convos {
